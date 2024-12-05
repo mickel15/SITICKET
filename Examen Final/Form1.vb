@@ -226,34 +226,30 @@ Public Class AdminForm
         }
 
         If saveFileDialog.ShowDialog() = DialogResult.OK Then
-            ' Escribir los datos en el archivo CSV
-            Using writer As New StreamWriter(saveFileDialog.FileName)
-                ' Escribir encabezados
-                For i As Integer = 0 To dgvSoportes.Columns.Count - 1
-                    writer.Write(dgvSoportes.Columns(i).HeaderText)
-                    If i < dgvSoportes.Columns.Count - 1 Then
-                        writer.Write(",")
-                    End If
-                Next
-                writer.WriteLine()
+            Try
+                Using writer As New StreamWriter(saveFileDialog.FileName, False, System.Text.Encoding.UTF8)
+                    ' Escribir encabezados organizados
+                    Dim headers = dgvSoportes.Columns.Cast(Of DataGridViewColumn)().
+                                  Select(Function(c) c.HeaderText.Replace(",", ";"))
+                    writer.WriteLine(String.Join(";", headers))
 
-                ' Escribir los datos de las filas
-                For Each row As DataGridViewRow In dgvSoportes.Rows
-                    If Not row.IsNewRow Then
-                        For i As Integer = 0 To dgvSoportes.Columns.Count - 1
-                            writer.Write(row.Cells(i).Value?.ToString())
-                            If i < dgvSoportes.Columns.Count - 1 Then
-                                writer.Write(",")
-                            End If
-                        Next
-                        writer.WriteLine()
-                    End If
-                Next
-            End Using
+                    ' Escribir los datos de cada fila
+                    For Each row As DataGridViewRow In dgvSoportes.Rows
+                        If Not row.IsNewRow Then
+                            Dim cells = row.Cells.Cast(Of DataGridViewCell)().
+                                        Select(Function(c) If(c.Value?.ToString().Replace(",", ";"), ""))
+                            writer.WriteLine(String.Join(";", cells))
+                        End If
+                    Next
+                End Using
 
-            MessageBox.Show("Datos exportados correctamente.", "Éxito")
+                MessageBox.Show("Datos exportados correctamente en formato organizado.", "Éxito")
+            Catch ex As Exception
+                MessageBox.Show($"Error al exportar los datos: {ex.Message}", "Error")
+            End Try
         End If
     End Sub
+
 End Class
 
 

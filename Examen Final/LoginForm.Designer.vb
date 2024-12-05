@@ -13,7 +13,7 @@ Partial Class LoginForm
             MyBase.Dispose(disposing)
         End Try
     End Sub
-    // 
+
     'Requerido por el Diseñador de Windows Forms
     Private components As System.ComponentModel.IContainer
 

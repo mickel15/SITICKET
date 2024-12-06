@@ -24,6 +24,9 @@ Public Class form1
             Me.Text = "Sistema SITICKET"
             Me.Size = New Size(600, 500)
             ConfigurarMenu(loginForm.Rol)
+            ' Cambiar el fondo del formulario
+            Me.BackColor = Color.FromArgb(40, 40, 40)
+            Me.ForeColor = Color.White
         Else
             ' Si el usuario no inició sesión, cerrar la aplicación
             Application.Exit()
@@ -37,6 +40,10 @@ Public Class form1
         Dim itinerarioMenu As New ToolStripMenuItem("Itinerario")
         Dim reporteMenu As New ToolStripMenuItem("Reporte")
         Dim ayudaMenu As New ToolStripMenuItem("Ayuda")
+
+        ' Configurar colores del menú
+        menuStrip.BackColor = Color.FromArgb(30, 30, 30) ' Fondo oscuro
+        menuStrip.ForeColor = Color.White
 
         ' Configurar elementos del menú según el rol
         If rol = "Administrador" Then
@@ -94,7 +101,7 @@ Public Class AdminForm
     Private WithEvents btnEditar As Button
     Private WithEvents btnEliminar As Button
     Private WithEvents btnCerrar As Button
-    Private WithEvents btnExportar As Button ' Botón para exportar a CSV
+    Private WithEvents btnExportar As Button
 
     ' Cadena de conexión (ajustar según tu configuración de SQL Server)
     Private connectionString As String = "Data Source=DESKTOP-B2C5UKG\SQLEXPRESS;Initial Catalog=SISTICKET;Integrated Security=True"
@@ -103,6 +110,8 @@ Public Class AdminForm
         ' Configuración del formulario
         Me.Text = "Gestión de Soportes"
         Me.Size = New Size(750, 500)
+        Me.BackColor = Color.FromArgb(40, 40, 40) ' Fondo oscuro
+        Me.ForeColor = Color.White
 
         ' Configurar DataGridView
         dgvSoportes = New DataGridView() With {
@@ -124,35 +133,45 @@ Public Class AdminForm
         btnAgregar = New Button() With {
             .Text = "Agregar",
             .Location = New Point(20, 350),
-            .Size = New Size(150, 40)
+            .Size = New Size(150, 40),
+            .BackColor = Color.FromArgb(0, 122, 204), ' Azul
+            .ForeColor = Color.White
         }
 
         ' Botón Editar
         btnEditar = New Button() With {
             .Text = "Editar",
             .Location = New Point(200, 350),
-            .Size = New Size(150, 40)
+            .Size = New Size(150, 40),
+            .BackColor = Color.FromArgb(0, 122, 204),
+            .ForeColor = Color.White
         }
 
         ' Botón Eliminar
         btnEliminar = New Button() With {
             .Text = "Eliminar",
             .Location = New Point(380, 350),
-            .Size = New Size(150, 40)
+            .Size = New Size(150, 40),
+            .BackColor = Color.FromArgb(204, 0, 0), ' Rojo
+            .ForeColor = Color.White
         }
 
         ' Botón Cerrar
         btnCerrar = New Button() With {
             .Text = "Cerrar",
             .Location = New Point(560, 350),
-            .Size = New Size(150, 40)
+            .Size = New Size(150, 40),
+            .BackColor = Color.FromArgb(128, 128, 128), ' Gris
+            .ForeColor = Color.White
         }
 
         ' Botón Exportar a CSV
         btnExportar = New Button() With {
             .Text = "Exportar a CSV",
             .Location = New Point(20, 400),
-            .Size = New Size(150, 40)
+            .Size = New Size(150, 40),
+            .BackColor = Color.FromArgb(0, 122, 204),
+            .ForeColor = Color.White
         }
 
         ' Agregar controles al formulario
@@ -344,7 +363,7 @@ End Class
 
 
 Public Class ReporteForm
-    Inherits Form ' Asegúrate de que ReporteForm herede de la clase Form
+    Inherits Form
 
     ' Declaración de controles
     WithEvents btnGenerar As Button
@@ -354,13 +373,16 @@ Public Class ReporteForm
     Public Sub New()
         ' Configuración del formulario
         Me.Text = "Módulo de Reporte"
-        Me.Size = New Size(400, 300) ' Ajusta el tamaño del formulario según sea necesario
+        Me.Size = New Size(400, 300)
+        Me.BackColor = Color.LightSkyBlue ' Fondo del formulario
 
         ' Crear el botón Generar Reporte dinámicamente
         btnGenerar = New Button()
         btnGenerar.Text = "Generar Reporte"
         btnGenerar.Size = New Size(150, 40)
         btnGenerar.Location = New Point(100, 100)
+        btnGenerar.BackColor = Color.MediumSeaGreen ' Color de fondo del botón
+        btnGenerar.ForeColor = Color.White ' Color del texto
         Me.Controls.Add(btnGenerar)
 
         ' Crear el botón Cerrar
@@ -368,6 +390,8 @@ Public Class ReporteForm
         btnCerrar.Text = "Cerrar"
         btnCerrar.Size = New Size(150, 40)
         btnCerrar.Location = New Point(100, 150)
+        btnCerrar.BackColor = Color.IndianRed
+        btnCerrar.ForeColor = Color.White
         Me.Controls.Add(btnCerrar)
 
         ' Vincular los eventos Click a los botones
@@ -383,7 +407,7 @@ Public Class ReporteForm
 
     ' Evento cuando se hace clic en el botón Cerrar
     Private Sub btnCerrar_Click(sender As Object, e As EventArgs)
-        Me.Close() ' Cierra el formulario ReporteForm
+        Me.Close()
     End Sub
 End Class
 
@@ -399,13 +423,15 @@ Public Class ItinerarioForm
         ' Configuración del formulario
         Me.Text = "Gestión de Itinerarios"
         Me.Size = New Size(800, 600)
+        Me.BackColor = Color.FromArgb(40, 40, 40)
 
         ' Crear DataGridView para los soportes en stock
         dgvSoportes = New DataGridView() With {
             .Location = New Point(20, 20),
             .Size = New Size(500, 300),
             .AllowUserToAddRows = False,
-            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+            .BackgroundColor = Color.White
         }
 
         ' Agregar columnas al DataGridView
@@ -429,7 +455,9 @@ Public Class ItinerarioForm
         btnCerrar = New Button() With {
             .Text = "Cerrar",
             .Location = New Point(320, 350),
-            .Size = New Size(150, 40)
+            .Size = New Size(150, 40),
+            .BackColor = Color.Crimson,
+            .ForeColor = Color.White
         }
 
         ' Agregar controles al formulario
@@ -444,7 +472,6 @@ Public Class ItinerarioForm
         Me.Close()
     End Sub
 End Class
-
 
 Public Class SoporteForm
     Inherits Form
@@ -467,6 +494,7 @@ Public Class SoporteForm
         ' Configuración del formulario
         Me.Text = $"{operation} Soporte"
         Me.Size = New Size(400, 400)
+        Me.BackColor = Color.LightGoldenrodYellow
 
         ' Configurar controles
         txtTipoSoporte = New TextBox() With {.Location = New Point(20, 50), .Width = 200}
@@ -474,8 +502,8 @@ Public Class SoporteForm
         nudCostoInicial = New NumericUpDown() With {.Location = New Point(20, 200), .Maximum = 10000, .DecimalPlaces = 2}
         nudCostoFinal = New NumericUpDown() With {.Location = New Point(20, 250), .Maximum = 10000, .DecimalPlaces = 2}
 
-        btnGuardar = New Button() With {.Text = "Guardar", .Location = New Point(50, 300)}
-        btnCancelar = New Button() With {.Text = "Cancelar", .Location = New Point(150, 300)}
+        btnGuardar = New Button() With {.Text = "Guardar", .Location = New Point(50, 300), .BackColor = Color.MediumSeaGreen, .ForeColor = Color.White}
+        btnCancelar = New Button() With {.Text = "Cancelar", .Location = New Point(150, 300), .BackColor = Color.IndianRed, .ForeColor = Color.White}
 
         ' Etiquetas
         Me.Controls.Add(New Label() With {.Text = "Tipo de Soporte", .Location = New Point(20, 30)})
@@ -509,7 +537,6 @@ Public Class SoporteForm
     End Sub
 End Class
 
-
 Public Class EquiposForm
     Inherits Form
 
@@ -521,24 +548,31 @@ Public Class EquiposForm
         ' Configuración del formulario
         Me.Text = "Gestión de Equipos"
         Me.Size = New Size(400, 300)
+        Me.BackColor = Color.LavenderBlush
 
         ' Crear controles
         btnAlta = New Button() With {
             .Text = "Alta de Equipos",
             .Location = New Point(100, 50),
-            .Size = New Size(200, 40)
+            .Size = New Size(200, 40),
+            .BackColor = Color.MediumSeaGreen,
+            .ForeColor = Color.White
         }
 
         btnBaja = New Button() With {
             .Text = "Baja de Equipos",
             .Location = New Point(100, 120),
-            .Size = New Size(200, 40)
+            .Size = New Size(200, 40),
+            .BackColor = Color.IndianRed,
+            .ForeColor = Color.White
         }
 
         btnCancelar = New Button() With {
             .Text = "Cerrar",
             .Location = New Point(100, 190),
-            .Size = New Size(200, 40)
+            .Size = New Size(200, 40),
+            .BackColor = Color.SkyBlue,
+            .ForeColor = Color.White
         }
 
         ' Agregar controles
@@ -561,7 +595,4 @@ Public Class EquiposForm
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs)
         Me.Close()
     End Sub
-
-
-
 End Class

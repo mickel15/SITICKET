@@ -21,67 +21,68 @@ Public Class LoginForm
         ' Configuración del formulario de Login
         Me.Text = "Inicio de Sesión - SISTICKET"
         Me.Size = New Size(400, 350)
-        Me.BackColor = Color.FromArgb(41, 128, 185) ' Color de fondo (un azul suave)
+        Me.BackColor = Color.FromArgb(41, 41, 41) ' Color de fondo (un azul suave)
 
         ' Crear y configurar los controles
         lblUsuario = New Label() With {
-            .Location = New Point(20, 30),
+            .Location = New Point(20, 25),
             .Text = "Usuario:",
             .ForeColor = Color.White, ' Color del texto de la etiqueta
             .Font = New Font("Arial", 10, FontStyle.Bold)
         }
 
         lblContraseña = New Label() With {
-            .Location = New Point(20, 80),
+            .Location = New Point(20, 83),
             .Text = "Contraseña:",
             .ForeColor = Color.White, ' Color del texto de la etiqueta
             .Font = New Font("Arial", 10, FontStyle.Bold)
         }
 
         txtUsuario = New TextBox() With {
-            .Location = New Point(20, 50),
-            .Width = 250, ' Aumentar el ancho del TextBox
-            .Height = 30, ' Aumentar la altura del TextBox
-            .BackColor = Color.WhiteSmoke, ' Color de fondo del TextBox
-            .ForeColor = Color.Black, ' Color del texto del TextBox
-            .Font = New Font("Arial", 10)
-        }
+    .Location = New Point(20, 50),
+    .Width = 300, ' Aumentar aún más el ancho del TextBox
+    .Height = 35, ' Aumentar la altura del TextBox
+    .BackColor = Color.WhiteSmoke, ' Color de fondo del TextBox
+    .ForeColor = Color.Black, ' Color del texto del TextBox
+    .Font = New Font("times new roman", 12) ' Aumentar el tamaño de la fuente
+}
 
         txtContraseña = New TextBox() With {
-            .Location = New Point(20, 110),
-            .Width = 250, ' Aumentar el ancho del TextBox
-            .Height = 30, ' Aumentar la altura del TextBox
-            .PasswordChar = "*"c,
-            .BackColor = Color.WhiteSmoke, ' Color de fondo del TextBox
-            .ForeColor = Color.Black, ' Color del texto del TextBox
-            .Font = New Font("Arial", 10)
-        }
+    .Location = New Point(20, 110),
+    .Width = 300, ' Aumentar aún más el ancho del TextBox
+    .Height = 35, ' Aumentar la altura del TextBox
+    .PasswordChar = "*"c,
+    .BackColor = Color.WhiteSmoke, ' Color de fondo del TextBox
+    .ForeColor = Color.Black, ' Color del texto del TextBox
+    .Font = New Font("Arial", 12) ' Aumentar el tamaño de la fuente
+}
+
 
         btnIniciar = New Button() With {
-            .Text = "Iniciar Sesión",
+            .Text = "INICIAR SESIÓN",
             .Location = New Point(20, 150),
             .Size = New Size(250, 40),
-            .BackColor = Color.FromArgb(46, 204, 113), ' Color de fondo del botón
+            .BackColor = Color.FromArgb(40, 207, 89), ' Color de fondo del botón
             .ForeColor = Color.White, ' Color del texto del botón
-            .Font = New Font("Arial", 12, FontStyle.Bold)
+            .Font = New Font("times new roman", 12, FontStyle.Bold)
         }
 
         btnRegistrar = New Button() With {
-            .Text = "Registrar Usuario",
+            .Text = "REGISTRAR USUARIO",
             .Location = New Point(20, 200),
             .Size = New Size(250, 40),
-            .BackColor = Color.FromArgb(52, 152, 219), ' Color de fondo del botón
+            .BackColor = Color.FromArgb(0, 35, 245), ' Color de fondo del botón
             .ForeColor = Color.White, ' Color del texto del botón
-            .Font = New Font("Arial", 12, FontStyle.Bold)
+            .Font = New Font("times new roman", 12, FontStyle.Bold)
         }
 
         btnCancelar = New Button() With {
-            .Text = "Cancelar",
+            .Text = "CANCELAR",
             .Location = New Point(20, 250),
             .Size = New Size(250, 40),
-            .BackColor = Color.FromArgb(231, 76, 60), ' Color de fondo del botón
+            .BackColor = Color.FromArgb(204, 0, 0), ' Rojo
             .ForeColor = Color.White, ' Color del texto del botón
-            .Font = New Font("Arial", 12, FontStyle.Bold)
+            .Font = New Font("times new roman", 12, FontStyle.Bold)
         }
 
         ' Agregar los "placeholders" a los TextBox

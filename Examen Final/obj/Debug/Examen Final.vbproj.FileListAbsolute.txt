@@ -49,3 +49,16 @@ C:\Users\conce\OneDrive\Documentos\GitHub\SITICKET\Examen Final\obj\Debug\Examen
 C:\Users\conce\OneDrive\Documentos\GitHub\SITICKET\Examen Final\obj\Debug\Examen Final.exe
 C:\Users\conce\OneDrive\Documentos\GitHub\SITICKET\Examen Final\obj\Debug\Examen Final.xml
 C:\Users\conce\OneDrive\Documentos\GitHub\SITICKET\Examen Final\obj\Debug\Examen Final.pdb
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\bin\Debug\Examen Final.exe.config
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\bin\Debug\Examen Final.exe
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\bin\Debug\Examen Final.pdb
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\bin\Debug\Examen Final.xml
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen Final.vbproj.AssemblyReference.cache
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen_Final.form1.resources
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen_Final.LoginForm.resources
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen_Final.Resources.resources
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen Final.vbproj.GenerateResource.cache
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen Final.vbproj.CoreCompileInputs.cache
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen Final.exe
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen Final.xml
+C:\Users\MARTINEZ\Desktop\Examen Final\SITICKET\Examen Final\obj\Debug\Examen Final.pdb

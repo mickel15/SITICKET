@@ -104,7 +104,7 @@ Public Class AdminForm
     Private WithEvents btnExportar As Button
 
     ' Cadena de conexión (ajustar según tu configuración de SQL Server)
-    Private connectionString As String = "Data Source=DESKTOP-B2C5UKG\SQLEXPRESS;Initial Catalog=SISTICKET;Integrated Security=True"
+    Private connectionString As String = "Data Source=192.168.1.17,1433;Initial Catalog=SISTICKET_DB;User ID=USERADM;Password=UTP12345!"
 
     Public Sub New()
         ' Configuración del formulario

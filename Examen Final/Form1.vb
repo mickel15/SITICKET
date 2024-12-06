@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports System.IO
 
 
 Public Class form1
@@ -95,15 +96,18 @@ Public Class AdminForm
     Private WithEvents btnCerrar As Button
     Private WithEvents btnExportar As Button ' Botón para exportar a CSV
 
+    ' Cadena de conexión (ajustar según tu configuración de SQL Server)
+    Private connectionString As String = "Data Source=DESKTOP-B2C5UKG\SQLEXPRESS;Initial Catalog=SISTICKET;Integrated Security=True"
+
     Public Sub New()
         ' Configuración del formulario
         Me.Text = "Gestión de Soportes"
-        Me.Size = New Size(700, 500)
+        Me.Size = New Size(750, 500)
 
         ' Configurar DataGridView
         dgvSoportes = New DataGridView() With {
-            .Location = New Point(20, 20),
-            .Size = New Size(640, 300),
+            .Location = New Point(20, 40),
+            .Size = New Size(700, 300),
             .AllowUserToAddRows = False,
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect
         }
@@ -160,58 +164,145 @@ Public Class AdminForm
         AddHandler btnEliminar.Click, AddressOf btnEliminar_Click
         AddHandler btnCerrar.Click, AddressOf btnCerrar_Click
         AddHandler btnExportar.Click, AddressOf btnExportar_Click ' Asociar evento de exportación
+
+        ' Cargar los datos desde la base de datos
+        CargarDatos()
+    End Sub
+
+    ' Cargar los datos desde la base de datos en el DataGridView
+    Private Sub CargarDatos()
+        Dim query As String = "SELECT * FROM Soportes"
+        Using connection As New SqlConnection(connectionString)
+            Using command As New SqlCommand(query, connection)
+                connection.Open()
+                Dim reader As SqlDataReader = command.ExecuteReader()
+                While reader.Read()
+                    Dim row As DataGridViewRow = dgvSoportes.Rows(dgvSoportes.Rows.Add())
+                    row.Cells("Id").Value = reader("Id")
+                    row.Cells("TipoSoporte").Value = reader("TipoSoporte")
+                    row.Cells("Detalle").Value = reader("Detalle")
+                    row.Cells("CostoInicial").Value = reader("CostoInicial")
+                    row.Cells("CostoFinal").Value = reader("CostoFinal")
+                    row.Cells("Estado").Value = reader("Estado")
+                End While
+            End Using
+        End Using
     End Sub
 
     ' Evento para agregar un nuevo soporte
     Private Sub btnAgregar_Click(sender As Object, e As EventArgs)
         Dim formSoporte As New SoporteForm("Agregar")
         If formSoporte.ShowDialog() = DialogResult.OK Then
-            ' Añadir el nuevo soporte a la tabla
-            Dim row As DataGridViewRow = dgvSoportes.Rows(dgvSoportes.Rows.Add())
-            row.Cells("Id").Value = dgvSoportes.Rows.Count
-            row.Cells("TipoSoporte").Value = formSoporte.TipoSoporte
-            row.Cells("Detalle").Value = formSoporte.Detalle
-            row.Cells("CostoInicial").Value = formSoporte.CostoInicial
-            row.Cells("CostoFinal").Value = formSoporte.CostoFinal
-            row.Cells("Estado").Value = "En Progreso"
+            ' Añadir el nuevo soporte a la base de datos
+            Dim query As String = "INSERT INTO Soportes (TipoSoporte, Detalle, CostoInicial, CostoFinal, Estado) VALUES (@TipoSoporte, @Detalle, @CostoInicial, @CostoFinal, @Estado)"
+            Using connection As New SqlConnection(connectionString)
+                Using command As New SqlCommand(query, connection)
+                    command.Parameters.AddWithValue("@TipoSoporte", formSoporte.TipoSoporte)
+                    command.Parameters.AddWithValue("@Detalle", formSoporte.Detalle)
+                    command.Parameters.AddWithValue("@CostoInicial", formSoporte.CostoInicial)
+                    command.Parameters.AddWithValue("@CostoFinal", formSoporte.CostoFinal)
+                    command.Parameters.AddWithValue("@Estado", "En Progreso")
+                    connection.Open()
+                    command.ExecuteNonQuery()
+                End Using
+            End Using
+            ' Recargar los datos en el DataGridView
+            CargarDatos()
         End If
     End Sub
 
     ' Evento para editar un soporte existente
-    Private Sub btnEditar_Click(sender As Object, e As EventArgs)
+    Private Sub btnEditar_Click(sender As Object, e As EventArgs) Handles btnEditar.Click
+        ' Verificar si hay una fila seleccionada
         If dgvSoportes.SelectedRows.Count = 0 Then
-            MessageBox.Show("Seleccione un soporte para editar.", "Advertencia")
+            MessageBox.Show("Seleccione un soporte para editar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
+        ' Obtener la fila seleccionada
         Dim row As DataGridViewRow = dgvSoportes.SelectedRows(0)
-        Dim formSoporte As New SoporteForm("Editar") With {
-            .TipoSoporte = row.Cells("TipoSoporte").Value?.ToString(),
-            .Detalle = row.Cells("Detalle").Value?.ToString(),
-            .CostoInicial = Convert.ToDecimal(row.Cells("CostoInicial").Value),
-            .CostoFinal = Convert.ToDecimal(row.Cells("CostoFinal").Value)
-        }
 
+        ' Crear y configurar el formulario de edición
+        Dim formSoporte As New SoporteForm("Editar") With {
+        .TipoSoporte = row.Cells("TipoSoporte").Value?.ToString(),
+        .Detalle = row.Cells("Detalle").Value?.ToString(),
+        .CostoInicial = Convert.ToDecimal(row.Cells("CostoInicial").Value),
+        .CostoFinal = Convert.ToDecimal(row.Cells("CostoFinal").Value)
+    }
+
+        ' Mostrar el formulario de edición
         If formSoporte.ShowDialog() = DialogResult.OK Then
-            ' Actualizar los datos en el DataGridView
-            row.Cells("TipoSoporte").Value = formSoporte.TipoSoporte
-            row.Cells("Detalle").Value = formSoporte.Detalle
-            row.Cells("CostoInicial").Value = formSoporte.CostoInicial
-            row.Cells("CostoFinal").Value = formSoporte.CostoFinal
+            Try
+                ' Actualizar los datos en la base de datos
+                Dim query As String = "UPDATE Soportes SET TipoSoporte = @TipoSoporte, Detalle = @Detalle, CostoInicial = @CostoInicial, CostoFinal = @CostoFinal WHERE Id = @Id"
+                Using connection As New SqlConnection(connectionString)
+                    Using command As New SqlCommand(query, connection)
+                        command.Parameters.AddWithValue("@TipoSoporte", formSoporte.TipoSoporte)
+                        command.Parameters.AddWithValue("@Detalle", formSoporte.Detalle)
+                        command.Parameters.AddWithValue("@CostoInicial", formSoporte.CostoInicial)
+                        command.Parameters.AddWithValue("@CostoFinal", formSoporte.CostoFinal)
+                        command.Parameters.AddWithValue("@Id", row.Cells("Id").Value)
+                        connection.Open()
+                        command.ExecuteNonQuery()
+                    End Using
+                End Using
+
+                ' Actualizar los datos directamente en el DataGridView
+                row.Cells("TipoSoporte").Value = formSoporte.TipoSoporte
+                row.Cells("Detalle").Value = formSoporte.Detalle
+                row.Cells("CostoInicial").Value = formSoporte.CostoInicial
+                row.Cells("CostoFinal").Value = formSoporte.CostoFinal
+
+                ' Mostrar mensaje de éxito
+                MessageBox.Show("Soporte actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Catch ex As Exception
+                ' Manejar errores
+                MessageBox.Show("Ocurrió un error al actualizar el soporte: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
+
 
     ' Evento para eliminar un soporte
-    Private Sub btnEliminar_Click(sender As Object, e As EventArgs)
+    Private Sub btnEliminar_Click(sender As Object, e As EventArgs) Handles btnEliminar.Click
+        ' Verificar si hay una fila seleccionada
         If dgvSoportes.SelectedRows.Count = 0 Then
-            MessageBox.Show("Seleccione un soporte para eliminar.", "Advertencia")
+            MessageBox.Show("Seleccione un soporte para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        If MessageBox.Show("¿Está seguro de que desea eliminar este soporte?", "Confirmación", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-            dgvSoportes.Rows.Remove(dgvSoportes.SelectedRows(0))
+        ' Confirmar eliminación
+        If MessageBox.Show("¿Está seguro de que desea eliminar este soporte?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            Try
+                ' Obtener la fila seleccionada
+                Dim row As DataGridViewRow = dgvSoportes.SelectedRows(0)
+                Dim soporteId As Integer = Convert.ToInt32(row.Cells("Id").Value)
+
+                ' Query SQL para eliminar
+                Dim query As String = "DELETE FROM Soportes WHERE Id = @Id"
+                Using connection As New SqlConnection(connectionString)
+                    Using command As New SqlCommand(query, connection)
+                        command.Parameters.AddWithValue("@Id", soporteId)
+                        connection.Open()
+                        command.ExecuteNonQuery()
+                    End Using
+                End Using
+
+                ' Eliminar la fila directamente del DataGridView
+                dgvSoportes.Rows.Remove(row)
+
+                ' Mostrar mensaje de éxito
+                MessageBox.Show("Soporte eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Catch ex As Exception
+                ' Manejar errores
+                MessageBox.Show("Ocurrió un error al eliminar el soporte: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
+
+
 
     ' Evento para cerrar el formulario
     Private Sub btnCerrar_Click(sender As Object, e As EventArgs)
@@ -234,25 +325,22 @@ Public Class AdminForm
                                   Select(Function(c) c.HeaderText.Replace(",", ";"))
                     writer.WriteLine(String.Join(";", headers))
 
-                    ' Escribir los datos de cada fila
+                    ' Escribir los datos
                     For Each row As DataGridViewRow In dgvSoportes.Rows
                         If Not row.IsNewRow Then
                             Dim cells = row.Cells.Cast(Of DataGridViewCell)().
-                                        Select(Function(c) If(c.Value?.ToString().Replace(",", ";"), ""))
+                                        Select(Function(cell) cell.Value.ToString().Replace(",", ";"))
                             writer.WriteLine(String.Join(";", cells))
                         End If
                     Next
                 End Using
-
-                MessageBox.Show("Datos exportados correctamente en formato organizado.", "Éxito")
+                MessageBox.Show("Datos exportados exitosamente.", "Éxito")
             Catch ex As Exception
-                MessageBox.Show($"Error al exportar los datos: {ex.Message}", "Error")
+                MessageBox.Show("Error al exportar los datos: " & ex.Message, "Error")
             End Try
         End If
     End Sub
-
 End Class
-
 
 
 Public Class ReporteForm

@@ -7,7 +7,8 @@ Public Class LoginForm
     Private txtUsuario As TextBox
     Private txtContraseña As TextBox
     Private btnIniciar As Button
-    Private lblMensaje As Label
+    Private lblUsuario As Label
+    Private lblContraseña As Label
     Private btnRegistrar As Button
     Private btnCancelar As Button
 
@@ -19,26 +20,77 @@ Public Class LoginForm
     Public Sub New()
         ' Configuración del formulario de Login
         Me.Text = "Inicio de Sesión - SISTICKET"
-        Me.Size = New Size(400, 300)
+        Me.Size = New Size(400, 350)
+        Me.BackColor = Color.FromArgb(41, 128, 185) ' Color de fondo (un azul suave)
 
         ' Crear y configurar los controles
-        lblMensaje = New Label() With {
-            .Location = New Point(20, 20),
-            .Text = "Por favor, ingrese su usuario y contraseña."
+        lblUsuario = New Label() With {
+            .Location = New Point(20, 30),
+            .Text = "Usuario:",
+            .ForeColor = Color.White, ' Color del texto de la etiqueta
+            .Font = New Font("Arial", 10, FontStyle.Bold)
         }
 
-        txtUsuario = New TextBox() With {.Location = New Point(20, 50), .Width = 200}
-        txtContraseña = New TextBox() With {.Location = New Point(20, 100), .Width = 200, .PasswordChar = "*"c}
-        btnIniciar = New Button() With {.Text = "Iniciar Sesión", .Location = New Point(20, 150), .Size = New Size(200, 40)}
-        btnRegistrar = New Button() With {.Text = "Registrar Usuario", .Location = New Point(20, 200), .Size = New Size(200, 40)}
-        btnCancelar = New Button() With {.Text = "Cancelar", .Location = New Point(20, 250), .Size = New Size(200, 40)}
+        lblContraseña = New Label() With {
+            .Location = New Point(20, 80),
+            .Text = "Contraseña:",
+            .ForeColor = Color.White, ' Color del texto de la etiqueta
+            .Font = New Font("Arial", 10, FontStyle.Bold)
+        }
+
+        txtUsuario = New TextBox() With {
+            .Location = New Point(20, 50),
+            .Width = 250, ' Aumentar el ancho del TextBox
+            .Height = 30, ' Aumentar la altura del TextBox
+            .BackColor = Color.WhiteSmoke, ' Color de fondo del TextBox
+            .ForeColor = Color.Black, ' Color del texto del TextBox
+            .Font = New Font("Arial", 10)
+        }
+
+        txtContraseña = New TextBox() With {
+            .Location = New Point(20, 110),
+            .Width = 250, ' Aumentar el ancho del TextBox
+            .Height = 30, ' Aumentar la altura del TextBox
+            .PasswordChar = "*"c,
+            .BackColor = Color.WhiteSmoke, ' Color de fondo del TextBox
+            .ForeColor = Color.Black, ' Color del texto del TextBox
+            .Font = New Font("Arial", 10)
+        }
+
+        btnIniciar = New Button() With {
+            .Text = "Iniciar Sesión",
+            .Location = New Point(20, 150),
+            .Size = New Size(250, 40),
+            .BackColor = Color.FromArgb(46, 204, 113), ' Color de fondo del botón
+            .ForeColor = Color.White, ' Color del texto del botón
+            .Font = New Font("Arial", 12, FontStyle.Bold)
+        }
+
+        btnRegistrar = New Button() With {
+            .Text = "Registrar Usuario",
+            .Location = New Point(20, 200),
+            .Size = New Size(250, 40),
+            .BackColor = Color.FromArgb(52, 152, 219), ' Color de fondo del botón
+            .ForeColor = Color.White, ' Color del texto del botón
+            .Font = New Font("Arial", 12, FontStyle.Bold)
+        }
+
+        btnCancelar = New Button() With {
+            .Text = "Cancelar",
+            .Location = New Point(20, 250),
+            .Size = New Size(250, 40),
+            .BackColor = Color.FromArgb(231, 76, 60), ' Color de fondo del botón
+            .ForeColor = Color.White, ' Color del texto del botón
+            .Font = New Font("Arial", 12, FontStyle.Bold)
+        }
 
         ' Agregar los "placeholders" a los TextBox
         SetPlaceholderText(txtUsuario, "Usuario")
         SetPlaceholderText(txtContraseña, "Contraseña")
 
-        ' Agregar controles al formulario
-        Me.Controls.Add(lblMensaje)
+        ' Agregar los controles al formulario
+        Me.Controls.Add(lblUsuario)
+        Me.Controls.Add(lblContraseña)
         Me.Controls.Add(txtUsuario)
         Me.Controls.Add(txtContraseña)
         Me.Controls.Add(btnIniciar)

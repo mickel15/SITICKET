@@ -111,7 +111,7 @@ Public Class AdminForm
         Me.Text = "Gestión de Soportes"
         Me.Size = New Size(750, 500)
         Me.BackColor = Color.FromArgb(40, 40, 40) ' Fondo oscuro
-        Me.ForeColor = Color.White
+        Me.ForeColor = Color.black
 
         ' Configurar DataGridView
         dgvSoportes = New DataGridView() With {
